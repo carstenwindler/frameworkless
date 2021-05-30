@@ -1,8 +1,12 @@
-# Frameworkless example webservice
+# Frameworkless Webservice
+
+This repository is an example about how to code a simple webservice in PHP without the use of frameworks. 
+
+> Please note, this is not meant to be used in production. Use it on your own risk.
 
 ## V1 - only PHP, no packages
 
-> Please note, this is only an example how you could theoretically build a webservice. This is not how I would recommend it, though.
+Version 1 of this little webservice is not using any packages or libraries. 
 
 ### Installation
 
@@ -13,5 +17,8 @@ make mysql-import build/mysql/database.sql
 
 ### Usage 
 ```
-curl http://localhost:8080/product
+curl -X GET http://localhost:8080/product
+curl -X GET http://localhost:8080/product/1
+curl -X POST localhost:8080/product -d '{ "description": "new item" }' -H "Content-Type: application/json"
+curl -X PUT localhost:8080/product/2 -d '{ "description": "updated" }' -H "Content-Type: application/json"
 ```

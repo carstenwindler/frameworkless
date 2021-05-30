@@ -9,6 +9,7 @@ $dsn = sprintf(
     getenv('MYSQL_HOST'),
     getenv('MYSQL_PORT'),
 );
+
 $conn = new PDO($dsn, getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'));
 
 //
@@ -37,54 +38,89 @@ function matchRoute(array $routes = []): array
 }
 
 //
-// Assign Handlers to Routes
+// Handler
+//
+function getProductHandler($request): array
+{
+    global $conn;
+
+    $statement = $conn->prepare('SELECT * FROM products');
+    $statement->execute();
+
+    return $statement->fetchAll();
+}
+
+function getProductByIdHandler($request): array
+{
+    global $conn;
+
+    $statement = $conn->prepare('SELECT * FROM products WHERE id = ?');
+    $statement->execute([ $request[0] ]);
+
+    return $statement->fetchAll();
+}
+
+function postProductHandler($request): array
+{
+    global $conn;
+
+    $statement = $conn->prepare('INSERT INTO products (description) VALUES (?)');
+    $statement->execute([ $request['description'] ]);
+
+    return [
+        'id' => $conn->lastInsertId()
+    ];
+}
+
+function putProductHandler($request): array
+{
+    global $conn;
+
+    $statement = $conn->prepare('UPDATE products SET description = ? WHERE id= ?');
+    $statement->execute([ $request['description'], $request[0] ]);
+
+    return [];
+}
+
+//
+// Route Config & Dispatch
 //
 $match = matchRoute([
     [
         'method' => 'GET',
         'url' => '/product',
-        'callback' => function($request) use ($conn): array {
-            $statement = $conn->prepare('SELECT * FROM products');
-            $statement->execute();
-
-            return $statement->fetchAll();
-        }
+        'callback' => 'getProductHandler'
     ],
     [
         'method' => 'POST',
         'url' => '/product',
-        'callback' => function($request) use ($conn): array {
-            $statement = $conn->prepare('INSERT INTO products (description) VALUES (?)');
-            $statement->execute([ $request['description'] ]);
-
-            return [
-                'id' => $conn->lastInsertId()
-            ];
-        }
+        'callback' => 'postProductHandler'
     ],
     [
         'method' => 'GET',
         'url' => '/product/:id',
-        'callback' => function($request) use ($conn): array {
-            $statement = $conn->prepare('SELECT * FROM products WHERE id = ?');
-            $statement->execute([ $request[0] ]);
-
-            return $statement->fetchAll();
-        }
+        'callback' => 'getProductByIdHandler'
+    ],
+    [
+        'method' => 'PUT',
+        'url' => '/product/:id',
+        'callback' => 'putProductHandler'
     ]
 ]);
 
+if (count($match) == 0) {
+    header('HTTP/1.1 404 Not Found');
+    exit();
+}
+
 list($route,$params) = $match;
 
+//
+// Call handler and return response
+//
 $responseArray = call_user_func_array($route['callback'], [$params]);
 
 header('HTTP/1.1 200 OK');
 header('Content-Type: application/json');
-echo json_encode($responseArray);
 
-// no 404, no 500s ...
-// no auth
-// no logging
-// no tests
-// no pagination
-// run speed comparison without xdebug
+echo json_encode($responseArray);
