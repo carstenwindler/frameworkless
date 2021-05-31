@@ -30,6 +30,13 @@ rebuild: stop
 	docker-compose up -d --force-recreate
 
 #############################
+# Composer
+#############################
+
+composer-update:
+	docker-compose exec php composer update
+
+#############################
 # Tests
 #############################
 
