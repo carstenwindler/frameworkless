@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Laminas\Diactoros\ResponseFactory;
-use MyMicroService\Handler\ProductHandler;
+use MyMicroService\Controller\ProductController;
 
 require '../vendor/autoload.php';
 
@@ -25,7 +25,7 @@ $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
 //
 $container = new League\Container\Container();
 $container
-    ->add(ProductHandler::class)
+    ->add(ProductController::class)
     ->addArgument(Connection::class);
 $container
     ->add(Connection::class, function (): Connection {
@@ -58,32 +58,32 @@ $router->setStrategy($strategy);
 //
 $router->map(
     'GET',
-    '/product',
-    [ProductHandler::class, 'get']
+    '/products',
+    [ProductController::class, 'get']
 );
 
 $router->map(
     'GET',
-    '/product/{id}',
-    [ProductHandler::class, 'getById']
+    '/products/{id}',
+    [ProductController::class, 'getById']
 );
 
 $router->map(
     'POST',
-    '/product',
-    [ProductHandler::class, 'post']
+    '/products',
+    [ProductController::class, 'post']
 );
 
 $router->map(
     'DELETE',
-    '/product/{id}',
-    [ProductHandler::class, 'delete']
+    '/products/{id}',
+    [ProductController::class, 'delete']
 );
 
 $router->map(
     'PUT',
-    '/product/{id}',
-    [ProductHandler::class, 'put']
+    '/products/{id}',
+    [ProductController::class, 'put']
 );
 
 //
