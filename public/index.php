@@ -38,7 +38,7 @@ function matchRoute(array $routes = []): array
 }
 
 //
-// Controlles
+// Controllers
 //
 function getProductsController($request): array
 {
