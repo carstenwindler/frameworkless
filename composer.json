@@ -14,7 +14,9 @@
     "laminas/laminas-diactoros": "^2.2",
     "league/container": "^3.3",
     "laminas/laminas-httphandlerrunner": "^1.1",
-    "doctrine/dbal": "^2.10"
+    "doctrine/dbal": "^2.10",
+    "monolog/monolog": "^2.2",
+    "middlewares/http-authentication": "^2.1"
   },
   "require-dev": {
     "symplify/easy-coding-standard": "^9",

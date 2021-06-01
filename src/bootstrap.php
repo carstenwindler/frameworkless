@@ -6,6 +6,9 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Laminas\Diactoros\ResponseFactory;
 use MyMicroService\Handler\ProductHandler;
+use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\SyslogHandler;
+use Monolog\Logger;
 
 require '../vendor/autoload.php';
 
@@ -19,6 +22,15 @@ $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
     $_COOKIE,
     $_FILES
 );
+
+//
+// Setup logger
+//
+$logger = new Logger('MyMircoService');
+$formatter = new LineFormatter();
+$handler = new SyslogHandler('MyMicroService', LOG_USER, Logger::INFO);
+$handler->setFormatter($formatter);
+$logger->pushHandler($handler);
 
 //
 // Setup container
@@ -52,6 +64,15 @@ $strategy = new League\Route\Strategy\JsonStrategy($responseFactory);
 $strategy->setContainer($container);
 $router = new League\Route\Router();
 $router->setStrategy($strategy);
+
+//
+// Add Authentication Middleware
+//
+$router->middleware(
+    new Middlewares\BasicAuthentication([
+        getenv('AUTH_USERNAME') => getenv('AUTH_PASSWORD'),
+    ])
+);
 
 //
 // Configure routes
