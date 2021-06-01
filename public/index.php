@@ -38,33 +38,34 @@ function matchRoute(array $routes = []): array
 }
 
 //
-// Handler
+// Controlles
 //
-function getProductHandler($request): array
+function getProductsController($request): array
 {
     global $conn;
 
-    $statement = $conn->prepare('SELECT * FROM products');
+    $statement = $conn->prepare('SELECT id, description FROM products');
     $statement->execute();
 
-    return $statement->fetchAll();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getProductByIdHandler($request): array
+function getProductsByIdController($request): array
 {
     global $conn;
 
-    $statement = $conn->prepare('SELECT * FROM products WHERE id = ?');
-    $statement->execute([ $request[0] ]);
+    $statement = $conn->prepare('SELECT id, description FROM products WHERE id = ?');
+    $statement->execute([ (int) $request[0] ]);
 
-    return $statement->fetchAll();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function postProductHandler($request): array
+function postProductsController($request): array
 {
     global $conn;
 
     $statement = $conn->prepare('INSERT INTO products (description) VALUES (?)');
+
     $statement->execute([ $request['description'] ]);
 
     return [
@@ -72,12 +73,22 @@ function postProductHandler($request): array
     ];
 }
 
-function putProductHandler($request): array
+function putProductsController($request): array
 {
     global $conn;
 
     $statement = $conn->prepare('UPDATE products SET description = ? WHERE id= ?');
-    $statement->execute([ $request['description'], $request[0] ]);
+    $statement->execute([ $request['description'], (int) $request[0] ]);
+
+    return [];
+}
+
+function deleteProductsController($request): array
+{
+    global $conn;
+
+    $statement = $conn->prepare('DELETE FROM products WHERE id= ?');
+    $statement->execute([ (int) $request[0] ]);
 
     return [];
 }
@@ -88,23 +99,28 @@ function putProductHandler($request): array
 $match = matchRoute([
     [
         'method' => 'GET',
-        'url' => '/product',
-        'callback' => 'getProductHandler'
+        'url' => '/products',
+        'callback' => 'getProductsController'
     ],
     [
         'method' => 'POST',
-        'url' => '/product',
-        'callback' => 'postProductHandler'
+        'url' => '/products',
+        'callback' => 'postProductsController'
     ],
     [
         'method' => 'GET',
-        'url' => '/product/:id',
-        'callback' => 'getProductByIdHandler'
+        'url' => '/products/:id',
+        'callback' => 'getProductsByIdController'
     ],
     [
         'method' => 'PUT',
-        'url' => '/product/:id',
-        'callback' => 'putProductHandler'
+        'url' => '/products/:id',
+        'callback' => 'putProductsController'
+    ],
+    [
+        'method' => 'DELETE',
+        'url' => '/products/:id',
+        'callback' => 'deleteProductsController'
     ]
 ]);
 
