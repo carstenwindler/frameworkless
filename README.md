@@ -17,9 +17,9 @@ make mysql-import build/mysql/database.sql
 
 ### Usage 
 ```
-curl -u username:password -X GET http://localhost:8080/product 
-curl -u username:password -X GET http://localhost:8080/product/1
-curl -u username:password -X POST localhost:8080/product -d '{ "description": "new item" }' -H "Content-Type: application/json"
-curl -u username:password -X PUT localhost:8080/product/2 -d '{ "description": "updated" }' -H "Content-Type: application/json"
-curl -u username:password -X DELETE localhost:8080/product/2
+curl -u username:password -X GET http://localhost:8080/products 
+curl -u username:password -X GET http://localhost:8080/products/1
+curl -u username:password -X POST localhost:8080/products -d '{ "description": "new item" }' -H "Content-Type: application/json"
+curl -u username:password -X PUT localhost:8080/products/2 -d '{ "description": "updated" }' -H "Content-Type: application/json"
+curl -u username:password -X DELETE localhost:8080/products/2
 ```

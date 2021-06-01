@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MyMicroService\Handler;
+namespace MyMicroService\Controller;
 
 use Doctrine\DBAL\Connection;
 use League\Route\Http\Exception\BadRequestException;
@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 
-class ProductHandler implements LoggerAwareInterface
+class ProductController implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
@@ -22,14 +22,14 @@ class ProductHandler implements LoggerAwareInterface
     public function get(): array
     {
         return $this->connection->fetchAllAssociative(
-            'SELECT * FROM products'
+            'SELECT id, description FROM products'
         );
     }
 
     public function getById(ServerRequestInterface $request, array $args): array
     {
         return $this->connection->fetchAllAssociative(
-            'SELECT * FROM products WHERE id = ?',
+            'SELECT id, description FROM products WHERE id = ?',
             [(int) $args['id']]
         );
     }

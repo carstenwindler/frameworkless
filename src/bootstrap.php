@@ -5,7 +5,7 @@ declare(strict_types=1);
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Laminas\Diactoros\ResponseFactory;
-use MyMicroService\Handler\ProductHandler;
+use MyMicroService\Controller\ProductController;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\SyslogHandler;
 use Monolog\Logger;
@@ -26,7 +26,7 @@ $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
 //
 // Setup logger
 //
-$logger = new Logger('MyMircoService');
+$logger = new Logger('MyMicroService');
 $formatter = new LineFormatter();
 $handler = new SyslogHandler('MyMicroService', LOG_USER, Logger::INFO);
 $handler->setFormatter($formatter);
@@ -37,7 +37,7 @@ $logger->pushHandler($handler);
 //
 $container = new League\Container\Container();
 $container
-    ->add(ProductHandler::class)
+    ->add(ProductController::class)
     ->addArgument(Connection::class);
 $container
     ->add(Connection::class, function (): Connection {
@@ -79,32 +79,32 @@ $router->middleware(
 //
 $router->map(
     'GET',
-    '/product',
-    [ProductHandler::class, 'get']
+    '/products',
+    [ProductController::class, 'get']
 );
 
 $router->map(
     'GET',
-    '/product/{id}',
-    [ProductHandler::class, 'getById']
+    '/products/{id}',
+    [ProductController::class, 'getById']
 );
 
 $router->map(
     'POST',
-    '/product',
-    [ProductHandler::class, 'post']
+    '/products',
+    [ProductController::class, 'post']
 );
 
 $router->map(
     'DELETE',
-    '/product/{id}',
-    [ProductHandler::class, 'delete']
+    '/products/{id}',
+    [ProductController::class, 'delete']
 );
 
 $router->map(
     'PUT',
-    '/product/{id}',
-    [ProductHandler::class, 'put']
+    '/products/{id}',
+    [ProductController::class, 'put']
 );
 
 //
