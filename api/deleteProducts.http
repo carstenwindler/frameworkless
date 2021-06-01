@@ -1,1 +1,2 @@
-GET http://localhost:8080/products/1
+DELETE http://localhost:8080/products/15
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=

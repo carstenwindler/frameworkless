@@ -1,4 +1,5 @@
 POST http://localhost:8080/products
 Content-Type: application/json
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
 
 { "description": "new product" }

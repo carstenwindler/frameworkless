@@ -9,6 +9,7 @@ use MyMicroService\Controller\ProductController;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\SyslogHandler;
 use Monolog\Logger;
+use MyMicroService\Repository\ProductRepository;
 
 require '../vendor/autoload.php';
 
@@ -38,6 +39,9 @@ $logger->pushHandler($handler);
 $container = new League\Container\Container();
 $container
     ->add(ProductController::class)
+    ->addArgument(ProductRepository::class);
+$container
+    ->add(ProductRepository::class)
     ->addArgument(Connection::class);
 $container
     ->add(Connection::class, function (): Connection {
