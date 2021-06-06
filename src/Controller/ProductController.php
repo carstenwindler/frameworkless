@@ -26,6 +26,8 @@ class ProductController implements LoggerAwareInterface
 
     public function getById(ServerRequestInterface $request, array $args): array
     {
+        $this->logger->info('GET request received for ID ' . $args['id']);
+
         return $this->productRepository->get((int) $args['id']);
     }
 
