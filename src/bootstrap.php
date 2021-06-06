@@ -5,9 +5,9 @@ declare(strict_types=1);
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Laminas\Diactoros\ResponseFactory;
+use Monolog\Handler\ErrorLogHandler;
 use MyMicroService\Controller\ProductController;
 use Monolog\Formatter\LineFormatter;
-use Monolog\Handler\SyslogHandler;
 use Monolog\Logger;
 use MyMicroService\Repository\ProductRepository;
 
@@ -29,7 +29,7 @@ $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
 //
 $logger = new Logger('MyMicroService');
 $formatter = new LineFormatter();
-$handler = new SyslogHandler('MyMicroService', LOG_USER, Logger::INFO);
+$handler = new ErrorLogHandler();
 $handler->setFormatter($formatter);
 $logger->pushHandler($handler);
 
@@ -39,10 +39,12 @@ $logger->pushHandler($handler);
 $container = new League\Container\Container();
 $container
     ->add(ProductController::class)
-    ->addArgument(ProductRepository::class);
+    ->addArgument(ProductRepository::class)
+    ->addMethodCall('setLogger', [$logger]);
 $container
     ->add(ProductRepository::class)
-    ->addArgument(Connection::class);
+    ->addArgument(Connection::class)
+    ->addMethodCall('setLogger', [$logger]);
 $container
     ->add(Connection::class, function (): Connection {
         //
