@@ -12,6 +12,7 @@ Version 2 of this little webservice is introducing composer and some neat packag
 
 ```
 docker-compose up -d
+make composer-install
 make mysql-import build/mysql/database.sql
 ```
 
