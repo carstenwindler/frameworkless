@@ -12,6 +12,7 @@ Version 3 of this little webservice is getting there. Let's add Monolog for prop
 
 ```
 docker-compose up -d
+make composer-install
 make mysql-import build/mysql/database.sql
 ```
 

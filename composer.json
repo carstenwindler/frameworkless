@@ -19,6 +19,7 @@
     "middlewares/http-authentication": "^2.1"
   },
   "require-dev": {
+    "phpunit/phpunit": "^9.5",
     "symplify/easy-coding-standard": "^9",
     "phpstan/phpstan": "^0.12.86",
     "vimeo/psalm": "^4.7"
