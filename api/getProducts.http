@@ -1,0 +1,2 @@
+GET http://localhost:8080/products
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=

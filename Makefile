@@ -30,16 +30,29 @@ rebuild: stop
 	docker-compose up -d --force-recreate
 
 #############################
+# Composer
+#############################
+
+composer:
+	docker-compose exec php composer $(ARGS)
+
+composer-install:
+	docker-compose exec php composer install
+
+composer-update:
+	docker-compose exec php composer update
+
+#############################
 # Tests
 #############################
 
 test:
-	bash ./bin/import.sh ./tests/fixtures/database.sql
+	# bash ./bin/import.sh ./tests/fixtures/database.sql
 	docker-compose exec php composer test
 
 # Broken
 testcoverage:
-	bash ./bin/import.sh ./tests/fixtures/database.sql
+	# bash ./bin/import.sh ./tests/fixtures/database.sql
 	docker-compose exec php composer testcoverage
 
 #############################

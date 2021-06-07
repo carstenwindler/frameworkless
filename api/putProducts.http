@@ -1,0 +1,5 @@
+PUT http://localhost:8080/products/2
+Content-Type: application/json
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+
+{ "description": "updated" }

@@ -1,4 +1,0 @@
-PUT http://localhost:8080/product/2
-Content-Type: application/json
-
-{ "description": "updated" }
