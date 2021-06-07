@@ -6,12 +6,15 @@ This repository is an example about how to code a simple webservice in PHP witho
 
 ## V1 - only PHP, no packages
 
-Version 1 of this little webservice is not using any packages or libraries. 
+Version 1 of this little webservice is not using any packages or libraries.
+
+> Check out the `v*`-branches for further evaluation steps of this webservice!
 
 ### Installation
 
 ```
 docker-compose up -d
+make composer-install
 make mysql-import build/mysql/database.sql
 ```
 
