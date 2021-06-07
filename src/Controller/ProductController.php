@@ -42,12 +42,12 @@ class ProductController implements LoggerAwareInterface
     {
         $parameters = json_decode($request->getBody()->getContents(), true);
 
-        if (!isset($parameters['description'])) {
+        if (! isset($parameters['description'])) {
             throw new BadRequestException();
         }
 
         return [
-            'id' =>  $this->productRepository->add($parameters['description'])
+            'id' => $this->productRepository->add($parameters['description']),
         ];
     }
 
@@ -55,7 +55,7 @@ class ProductController implements LoggerAwareInterface
     {
         $parameters = json_decode($request->getBody()->getContents(), true);
 
-        if (!isset($parameters['description'])) {
+        if (! isset($parameters['description'])) {
             throw new BadRequestException();
         }
 
@@ -63,5 +63,4 @@ class ProductController implements LoggerAwareInterface
 
         return [];
     }
-
 }

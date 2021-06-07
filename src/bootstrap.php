@@ -3,12 +3,12 @@
 declare(strict_types=1);
 
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\DriverManager;
 use Laminas\Diactoros\ResponseFactory;
-use Monolog\Handler\ErrorLogHandler;
-use MyMicroService\Controller\ProductController;
 use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
+use MyMicroService\Controller\ProductController;
+use MyMicroService\Database\DatabaseConnectionFactory;
 use MyMicroService\Repository\ProductRepository;
 
 require '../vendor/autoload.php';
@@ -46,21 +46,7 @@ $container
     ->addArgument(Connection::class)
     ->addMethodCall('setLogger', [$logger]);
 $container
-    ->add(Connection::class, function (): Connection {
-        //
-        // DB Connection
-        //
-        $connectionParams = [
-            'dbname' => getenv('MYSQL_DATABASE'),
-            'user' => getenv('MYSQL_USER'),
-            'password' => getenv('MYSQL_PASSWORD'),
-            'host' => getenv('MYSQL_HOST'),
-            'driver' => 'pdo_mysql',
-            'port' => getenv('MYSQL_PORT'),
-        ];
-
-        return DriverManager::getConnection($connectionParams);
-    });
+    ->add(Connection::class, (new DatabaseConnectionFactory())($request));
 
 //
 // Initialise router

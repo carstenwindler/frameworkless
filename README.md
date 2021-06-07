@@ -4,9 +4,9 @@ This repository is an example about how to code a simple webservice in PHP witho
 
 > Please note, this is not meant to be used in production. Use it on your own risk.
 
-## V3 - adding some advanced packages
+## V4 - adding tests and code quality tools
 
-Version 3 of this little webservice is getting there. Let's add Monolog for proper logging and an Auth middleware.
+Version 4 is finally adding basic functional API tests and Code Quality tools.
 
 ### Installation
 
@@ -24,3 +24,14 @@ curl -u username:password -X POST localhost:8080/products -d '{ "description": "
 curl -u username:password -X PUT localhost:8080/products/2 -d '{ "description": "updated" }' -H "Content-Type: application/json"
 curl -u username:password -X DELETE localhost:8080/products/2
 ```
+
+### Tests
+
+* `make test` to execute the default test suite.
+
+### Code Quality
+
+* `make cs` - run Code Sniffer
+* `make csfix` - run Code Sniffer Fixer
+* `make analyze` - run Code Analyzer
+

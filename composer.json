@@ -22,7 +22,8 @@
     "phpunit/phpunit": "^9.5",
     "symplify/easy-coding-standard": "^9",
     "phpstan/phpstan": "^0.12.86",
-    "vimeo/psalm": "^4.7"
+    "vimeo/psalm": "^4.7",
+    "guzzlehttp/guzzle": "^7.3"
   },
   "autoload": {
     "psr-4": {
@@ -30,8 +31,9 @@
     }
   },
   "scripts": {
-    "analyze": "vendor/bin/phpstan analyse -l 4 --no-progress src ; ./vendor/bin/psalm",
+    "analyze": "vendor/bin/phpstan analyse -l 5 --no-progress src ; ./vendor/bin/psalm",
     "cs": "vendor/bin/ecs check src",
-    "csfix": "vendor/bin/ecs check src --fix"
+    "csfix": "vendor/bin/ecs check src --fix",
+    "test": "vendor/bin/phpunit tests"
   }
 }

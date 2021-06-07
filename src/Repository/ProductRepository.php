@@ -57,5 +57,4 @@ class ProductRepository implements LoggerAwareInterface
             [$description, $id]
         );
     }
-
 }
